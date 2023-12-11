@@ -159,6 +159,8 @@ def make_and_save_p(df, file_prefix, new_list, save):
         #RGB together
         imgRGB = np.array([imgR, imgG, imgB]) #just put them together to get the full RGB picture
 
+        imgRGB = np.rollaxis(imgRGB,0,3) #change from 3X32x32 into 32x32x3 so that it in cv2 RGB format
+        
         new_list[idx][4] = imgRGB
 
 
@@ -171,7 +173,6 @@ def make_and_save_p(df, file_prefix, new_list, save):
         new_list[idx][5] = imgBW
 
         if save == True: #save the pictures as an actual jpg file if save = True
-            imgRGB = np.rollaxis(imgRGB,0,3) #change from 3X32x32 into 32x32x3 so that it in cv2 RGB format
             output_name = f'{file_prefix}_sample_{idx}_imgRGB.jpg'
             save_path = os.path.join(os.getcwd(),f'pictures/{output_name}')
             cv2.imwrite(save_path, imgRGB) #save the image at the given path
