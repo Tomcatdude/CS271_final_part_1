@@ -21,9 +21,9 @@ def main():
     new_challenge_list =np.zeros((700,6)).tolist()
 
     #turn into histograms and save into the lists and possibly save into actual png images if save = true
-    #make_and_save_histos(labeled_df, challenge_df, new_labeled_list, new_challenge_list, save = False)
+    make_and_save_histos(labeled_df, challenge_df, new_labeled_list, new_challenge_list, save = False)
     #turn into images and save into the lists and possibly save into actual png images if save = true
-    make_and_save_pics(labeled_df, challenge_df, new_labeled_list, new_challenge_list, save = True)
+    make_and_save_pics(labeled_df, challenge_df, new_labeled_list, new_challenge_list, save = False)
 
     #the headers for our dataframes
     df_headers = ['feature_vector_1_histogram','feature_vector_2_histogram','feature_vector_3_histogram','sequence_histogram','features_picture','sequence_picture']
