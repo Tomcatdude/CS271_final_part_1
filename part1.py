@@ -101,19 +101,21 @@ def make_and_save_h(df, file_prefix, new_list, save):
             histogram = []
             max = 20
             if vector == 'sequence':
-                max = 372
+                max = 422
             for element in range(0,max): #we need to create counts for the numbers not present in the line
                 if histo_as_dict.get(element) is not None:
                     histogram.append(histo_as_dict.get(element))
                 else:
                     histogram.append(0)
+            
+            histogram = [float(number)/(len(row[vector])*1.0) for number in histogram] #turn into percentages of length
             new_list[idx][i] = np.array(histogram) #add the histogram to our list at the current sample and index
 
             #save a histogram picture if save is true
             if save == True:
                 if(vector == 'sequence'):
                     plt.hist(row[vector], bins=np.arange(0, 372))
-                    plt.xticks(np.arange(0, 372+1, 50))
+                    plt.xticks(np.arange(0, 422+1, 50))
                 else:
                     plt.hist(row[vector], bins=np.arange(0, 20))
                     plt.xticks(np.arange(0, 20+1, 1.0))
@@ -158,6 +160,7 @@ def make_and_save_p(df, file_prefix, new_list, save):
         #black and white picture
         imgBW = np.array(row['sequence'])
         imgBW = into_pixels_sequence(imgBW).astype(int)
+        
         imgBW.resize((32,32)) #resize to be the 32x32 picture
 
         new_list[idx][5] = imgBW
@@ -187,7 +190,7 @@ def into_pixels_feature(num):
 
 #turns a given sequence vector int into its corresponding pixel value
 def into_pixels_sequence(num):
-    num = 255*(num/371)
+    num = 255*(num/421)
     return num
 
 if __name__ == "__main__":
