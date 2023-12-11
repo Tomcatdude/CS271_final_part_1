@@ -8,7 +8,7 @@ from itertools import islice
 import matplotlib.pyplot as plt
 import os
 import sys
-np.set_printoptions(threshold=sys.maxsize)
+np.set_printoptions(threshold=sys.maxsize) #to be able to print large dataframe lists to csv file
 
 
 def main():
@@ -20,11 +20,14 @@ def main():
     new_labeled_list = np.zeros((3000,6)).tolist()
     new_challenge_list =np.zeros((700,6)).tolist()
 
+    print('creating histograms...\n\n')
     #turn into histograms and save into the lists and possibly save into actual png images if save = true
     make_and_save_histos(labeled_df, challenge_df, new_labeled_list, new_challenge_list, save = False)
+    print('creating pictures...\n\n')
     #turn into images and save into the lists and possibly save into actual png images if save = true
     make_and_save_pics(labeled_df, challenge_df, new_labeled_list, new_challenge_list, save = False)
 
+    print('creating csv files...\n\n')
     #the headers for our dataframes
     df_headers = ['feature_vector_1_histogram','feature_vector_2_histogram','feature_vector_3_histogram','sequence_histogram','features_picture','sequence_picture']
     
@@ -36,6 +39,8 @@ def main():
     #turn the challenge list into a dataframe, then turn into csv
     new_challenge_df = pd.DataFrame(new_challenge_list, columns=df_headers)
     new_challenge_df.to_csv('new_challenge.csv')
+
+    print('done!\n\n')
     
 
 #--------------------------------------------------------------------------------------------#
@@ -101,7 +106,7 @@ def make_and_save_h(df, file_prefix, new_list, save):
             histogram = []
             max = 20
             if vector == 'sequence':
-                max = 422
+                max = 430
             for element in range(0,max): #we need to create counts for the numbers not present in the line
                 if histo_as_dict.get(element) is not None:
                     histogram.append(histo_as_dict.get(element))
@@ -115,7 +120,7 @@ def make_and_save_h(df, file_prefix, new_list, save):
             if save == True:
                 if(vector == 'sequence'):
                     plt.hist(row[vector], bins=np.arange(0, 372))
-                    plt.xticks(np.arange(0, 422+1, 50))
+                    plt.xticks(np.arange(0, 430+1, 50))
                 else:
                     plt.hist(row[vector], bins=np.arange(0, 20))
                     plt.xticks(np.arange(0, 20+1, 1.0))
@@ -190,7 +195,7 @@ def into_pixels_feature(num):
 
 #turns a given sequence vector int into its corresponding pixel value
 def into_pixels_sequence(num):
-    num = 255*(num/421)
+    num = 255*(num/430)
     return num
 
 if __name__ == "__main__":
